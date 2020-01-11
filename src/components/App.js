@@ -1,5 +1,7 @@
 import React from "react";
-import StudentContainer from "./StudentContainer.js"
+import StudentContainer from "./StudentContainer.js";
+import "../styles/App.css";
+
 class App extends React.Component {
   constructor(){
     super();

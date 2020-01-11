@@ -1,5 +1,6 @@
 import React from "react";
-import StudentRow from "./StudentRow"
+import StudentRow from "./StudentRow";
+import "../styles/StudentContainer";
 
 class StudentContainer extends React.Component {
 	constructor(){
@@ -22,9 +23,9 @@ class StudentContainer extends React.Component {
       );
     });
 		return(
-			<>
+			<main className = "student-set-container">
 				{setOfStudents ? setOfStudents : <h2>Please wait a moment...</h2>}
-			</>
+			</main>
 		);
 	}
 }

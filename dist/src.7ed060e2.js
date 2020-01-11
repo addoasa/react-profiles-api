@@ -31730,7 +31730,79 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"../src/components/StudentRow.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../src/styles/StudentRow.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../src/components/StudentRow.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31739,6 +31811,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
+
+require("../styles/StudentRow.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31783,12 +31857,12 @@ function (_React$Component) {
       var average;
 
       for (var i = 0; i < grades.length; i++) {
-        sum = sum + grades[i];
+        sum = sum + JSON.parse(grades[i]);
       } // and then divide them by the amount of grades to get the average
 
 
       average = sum / grades.length;
-      return average;
+      return average.toFixed(2);
     } //   city: "Fushë-Muhurr"
     // company: "Yadel"
     // email: "iorton0@imdb.com"
@@ -31803,9 +31877,21 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var student = this.props.studentData;
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("img", {
-        src: student.pic
-      }), _react.default.createElement("h1", null, student.firstName, " ", student.lastName), _react.default.createElement("h3", null, "Email: ", student.email), _react.default.createElement("h3", null, "Company: ", student.company), _react.default.createElement("h3", null, "Skill: ", student.skill), _react.default.createElement("h3", null, "Average: ", this.calculateAvg(student.grades)));
+      var stylesObj = {
+        backgroundImage: "url(".concat(student.pic, ")")
+      };
+      return _react.default.createElement("div", {
+        className: "student-row"
+      }, _react.default.createElement("div", {
+        className: "student-row-image",
+        style: stylesObj
+      }), _react.default.createElement("div", {
+        className: "student-row-specs"
+      }, _react.default.createElement("h1", {
+        className: "student-row-name"
+      }, student.firstName.toUpperCase(), " ", student.lastName.toUpperCase()), _react.default.createElement("ul", {
+        className: "student-row-listinfo"
+      }, _react.default.createElement("li", null, "Email: ", student.email), _react.default.createElement("li", null, "Company: ", student.company), _react.default.createElement("li", null, "Skill: ", student.skill), _react.default.createElement("li", null, "Average: ", this.calculateAvg(student.grades), " %"))));
     }
   }]);
 
@@ -31814,7 +31900,12 @@ function (_React$Component) {
 
 var _default = StudentRow;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"../src/components/StudentContainer.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../styles/StudentRow.css":"../src/styles/StudentRow.css"}],"../src/styles/StudentContainer.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../src/components/StudentContainer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31825,6 +31916,8 @@ exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
 
 var _StudentRow = _interopRequireDefault(require("./StudentRow"));
+
+require("../styles/StudentContainer");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31870,7 +31963,9 @@ function (_React$Component) {
           studentData: studentData
         });
       });
-      return _react.default.createElement(_react.default.Fragment, null, setOfStudents ? setOfStudents : _react.default.createElement("h2", null, "Please wait a moment..."));
+      return _react.default.createElement("main", {
+        className: "student-set-container"
+      }, setOfStudents ? setOfStudents : _react.default.createElement("h2", null, "Please wait a moment..."));
     }
   }]);
 
@@ -31879,7 +31974,12 @@ function (_React$Component) {
 
 var _default = StudentContainer;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./StudentRow":"../src/components/StudentRow.js"}],"../src/components/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./StudentRow":"../src/components/StudentRow.js","../styles/StudentContainer":"../src/styles/StudentContainer.css"}],"../src/styles/App.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../src/components/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31890,6 +31990,8 @@ exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
 
 var _StudentContainer = _interopRequireDefault(require("./StudentContainer.js"));
+
+require("../styles/App.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31966,7 +32068,7 @@ function (_React$Component) {
 
 var _default = App;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./StudentContainer.js":"../src/components/StudentContainer.js"}],"../src/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./StudentContainer.js":"../src/components/StudentContainer.js","../styles/App.css":"../src/styles/App.css"}],"../src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
