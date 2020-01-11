@@ -31931,9 +31931,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -31945,27 +31945,71 @@ function (_React$Component) {
   _inherits(StudentContainer, _React$Component);
 
   function StudentContainer() {
+    var _this;
+
     _classCallCheck(this, StudentContainer);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(StudentContainer).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(StudentContainer).call(this));
+    _this.state = {
+      searchTerm: ''
+    };
+    _this.searchForName = _this.searchForName.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(StudentContainer, [{
+    key: "searchForName",
+    value: function searchForName(event) {
+      // remove any white spaces and store search input into state
+      this.setState({
+        searchTerm: event.target.value.replace(/ /g, '')
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       // save fetched students array to a variable
-      var fetchedStudents = this.props.studentInformation; // iterate over array of fetched data in props WHEN we have recieved it
+      var fetchedStudents = this.props.studentInformation;
+      var studentsToShow = []; //--------------------------------------------------
+      // iterate over array of fetched data in props WHEN we have recieved it
+      // create a unique UI component for each object in the array
+      //--------------------------------------------------
 
       var setOfStudents = fetchedStudents.map(function (studentData, index) {
-        // create a unique UI component for each object in the array
         return _react.default.createElement(_StudentRow.default, {
           key: studentData.firstName + index,
           studentData: studentData
         });
+      }); //--------------------------------------------------
+      // Filter through array of UI components
+      // Return only the components that match the search conditions
+      //--------------------------------------------------
+
+      var filteredSetOfStudents = setOfStudents.filter(function (studentRow, index) {
+        // tap into the props object of a each <StudentRow />... 
+        // and extract the first and last name of each student
+        // (use toUpperCase() for caseinsensitive search)
+        var studentFirstName = studentRow.props.studentData.firstName.toUpperCase();
+        var studentLastName = studentRow.props.studentData.lastName.toUpperCase(); // return UI Components where the extracted names match against the search input
+
+        var searchQuery = _this2.state.searchTerm.toUpperCase();
+
+        return (// show ui item if input matches first name, last name or both
+          studentFirstName.includes(searchQuery) || studentLastName.includes(searchQuery) || (studentFirstName + studentLastName).includes(searchQuery)
+        );
       });
       return _react.default.createElement("main", {
         className: "student-set-container"
-      }, setOfStudents ? setOfStudents : _react.default.createElement("h2", null, "Please wait a moment..."));
+      }, _react.default.createElement("input", {
+        className: "searchBar",
+        type: "text",
+        placeholder: "Search by name",
+        onChange: this.searchForName
+      }), _react.default.createElement("div", {
+        className: "student-set"
+      }, this.state.searchTerm ? filteredSetOfStudents : setOfStudents));
     }
   }]);
 
