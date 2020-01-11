@@ -31752,9 +31752,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -31766,15 +31766,46 @@ function (_React$Component) {
   _inherits(StudentRow, _React$Component);
 
   function StudentRow() {
+    var _this;
+
     _classCallCheck(this, StudentRow);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(StudentRow).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(StudentRow).call(this));
+    _this.calculateAvg = _this.calculateAvg.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(StudentRow, [{
+    key: "calculateAvg",
+    value: function calculateAvg(grades) {
+      //add all student grades together...
+      var sum = 0;
+      var average;
+
+      for (var i = 0; i < grades.length; i++) {
+        sum = sum + grades[i];
+      } // and then divide them by the amount of grades to get the average
+
+
+      average = sum / grades.length;
+      return average;
+    } //   city: "Fushë-Muhurr"
+    // company: "Yadel"
+    // email: "iorton0@imdb.com"
+    // firstName: "Ingaberg"
+    // grades: (8) ["78", "100", "92", "86", "89", "88", "91", "87"]
+    // id: "1"
+    // lastName: "Orton"
+    // pic: "https://storage.googleapis.com/hatchways-app.appspot.com/assessments/data/frontend/images/voluptasdictablanditiis.jpg"
+    // skill: "Oracle"
+
+  }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("h1", null, "Fop"));
+      var student = this.props.studentData;
+      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("img", {
+        src: student.pic
+      }), _react.default.createElement("h1", null, student.firstName, " ", student.lastName), _react.default.createElement("h3", null, "Email: ", student.email), _react.default.createElement("h3", null, "Company: ", student.company), _react.default.createElement("h3", null, "Skill: ", student.skill), _react.default.createElement("h3", null, "Average: ", this.calculateAvg(student.grades)));
     }
   }]);
 
@@ -31829,8 +31860,9 @@ function (_React$Component) {
   _createClass(StudentContainer, [{
     key: "render",
     value: function render() {
-      // iterate over array of fetched data in props
-      var fetchedStudents = this.props.studentInformation;
+      // save fetched students array to a variable
+      var fetchedStudents = this.props.studentInformation; // iterate over array of fetched data in props WHEN we have recieved it
+
       var setOfStudents = fetchedStudents.map(function (studentData, index) {
         // create a unique UI component for each object in the array
         return _react.default.createElement(_StudentRow.default, {
@@ -31838,7 +31870,7 @@ function (_React$Component) {
           studentData: studentData
         });
       });
-      return _react.default.createElement(_react.default.Fragment, null, setOfStudents);
+      return _react.default.createElement(_react.default.Fragment, null, setOfStudents ? setOfStudents : _react.default.createElement("h2", null, "Please wait a moment..."));
     }
   }]);
 
@@ -31913,12 +31945,10 @@ function (_React$Component) {
         return gotData.json();
       }) // store the translated student content in state
       .then(function (gotReadableData) {
-        console.log({
-          gotReadableData: gotReadableData
-        });
+        console.log(gotReadableData.students);
 
         _this2.setState({
-          studentInformation: gotReadableData
+          studentInformation: gotReadableData.students
         });
       });
     }

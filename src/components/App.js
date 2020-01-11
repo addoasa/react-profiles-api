@@ -24,9 +24,9 @@ class App extends React.Component {
 
     // store the translated student content in state
     .then((gotReadableData)=>{
-      console.log({ gotReadableData })
+      console.log(gotReadableData.students)
       this.setState({
-        studentInformation : gotReadableData,
+        studentInformation : gotReadableData.students,
       })
     })
   }
@@ -34,8 +34,7 @@ class App extends React.Component {
   render(){
     return(
       <>
-        <StudentContainer studentInformation = {this.state.studentInformation}
-        />
+        <StudentContainer studentInformation = {this.state.studentInformation}/>
       </>
     )
   }

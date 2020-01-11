@@ -7,9 +7,11 @@ class StudentContainer extends React.Component {
 	}
   
 	render(){
-		// iterate over array of fetched data in props
-		const fetchedStudents = this.props.studentInformation;
-		const setOfStudents = fetchedStudents.map((studentData,index)=>{
+    // save fetched students array to a variable
+    const fetchedStudents = this.props.studentInformation;
+    
+    // iterate over array of fetched data in props WHEN we have recieved it
+      const setOfStudents = fetchedStudents.map((studentData,index)=>{
       
       // create a unique UI component for each object in the array
       return (
@@ -21,7 +23,7 @@ class StudentContainer extends React.Component {
     });
 		return(
 			<>
-				{setOfStudents}
+				{setOfStudents ? setOfStudents : <h2>Please wait a moment...</h2>}
 			</>
 		);
 	}
