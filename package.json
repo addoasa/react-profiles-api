@@ -1,0 +1,25 @@
+{
+  "name": "hatchways-assessment-kwadwo",
+  "version": "1.0.0",
+  "description": "Frontend assessment creating student profiles.",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ./public/index.html",
+    "test": ""
+  },
+  "author": "Kwadwo Asamoah",
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.7.2",
+    "eslint-plugin-react": "^7.17.0"
+  }
+}
