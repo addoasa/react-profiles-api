@@ -31845,7 +31845,15 @@ function (_React$Component) {
     _classCallCheck(this, StudentRow);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StudentRow).call(this));
+    _this.state = {
+      userWantsToSeeScores: false,
+      tagToAdd: '',
+      tagArray: []
+    };
     _this.calculateAvg = _this.calculateAvg.bind(_assertThisInitialized(_this));
+    _this.toggleScores = _this.toggleScores.bind(_assertThisInitialized(_this));
+    _this.addTag = _this.addTag.bind(_assertThisInitialized(_this));
+    _this.getTagInput = _this.getTagInput.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -31863,35 +31871,125 @@ function (_React$Component) {
 
       average = sum / grades.length;
       return average.toFixed(2);
-    } //   city: "Fushë-Muhurr"
-    // company: "Yadel"
-    // email: "iorton0@imdb.com"
-    // firstName: "Ingaberg"
-    // grades: (8) ["78", "100", "92", "86", "89", "88", "91", "87"]
-    // id: "1"
-    // lastName: "Orton"
-    // pic: "https://storage.googleapis.com/hatchways-app.appspot.com/assessments/data/frontend/images/voluptasdictablanditiis.jpg"
-    // skill: "Oracle"
+    }
+  }, {
+    key: "toggleScores",
+    value: function toggleScores() {
+      if (this.state.userWantsToSeeScores) {
+        this.setState({
+          userWantsToSeeScores: false
+        });
+      } else {
+        this.setState({
+          userWantsToSeeScores: true
+        });
+      }
+    } // -----------------------------
+    // Tag Methods
+    // -----------------------------
 
+  }, {
+    key: "getTagInput",
+    value: function getTagInput(event) {
+      // the input of the user adding tags
+      this.setState({
+        tagToAdd: event.target.value
+      });
+    }
+  }, {
+    key: "addTag",
+    value: function addTag(event) {
+      var _this2 = this;
+
+      event.preventDefault(); // Create a copy of the current tags for a student...
+      // so that we don't directly mutate state
+
+      var copyOfTagArray = this.state.tagArray.slice();
+      copyOfTagArray.push(this.state.tagToAdd); // store the array of tags the user has inputted in state
+      // and reset input field
+      // send tag data to the parent when a new tag is addedgit add    
+      // Do this along with setting state to avoid state updating one step behind
+
+      this.setState({
+        tagArray: copyOfTagArray,
+        tagToAdd: ''
+      }, function () {
+        return _this2.props.extractTagsFromRow(_this2.props.index, _this2.state.tagArray);
+      });
+    }
   }, {
     key: "render",
     value: function render() {
       var student = this.props.studentData;
       var stylesObj = {
         backgroundImage: "url(".concat(student.pic, ")")
-      };
+      }; //-------------------------------
+      // Store the students testscores 
+      // for later conditional rendering
+      //-------------------------------
+
+      var testScores = [];
+
+      for (var i = 0; i < student.grades.length; i++) {
+        testScores.push(_react.default.createElement("li", {
+          key: "".concat(student.firstName, "-").concat(student.grades[i])
+        }, _react.default.createElement("span", null, "Test", i, ":"), _react.default.createElement("span", null, student.grades[i], "%")));
+      } //-------------------------------
+      // Create a UI item for each tag stored in Parent's state 
+      //-------------------------------
+
+
+      var arrOfTags = [];
+
+      if (this.props.tags) {
+        arrOfTags = this.props.tags.map(function (tag, index) {
+          return _react.default.createElement("div", {
+            className: "student-tag",
+            key: "".concat(tag, " ").concat(index)
+          }, tag);
+        });
+      }
+
       return _react.default.createElement("div", {
         className: "student-row"
       }, _react.default.createElement("div", {
         className: "student-row-image",
         style: stylesObj
       }), _react.default.createElement("div", {
+        className: "student-row-specs-and-btn"
+      }, _react.default.createElement("div", {
         className: "student-row-specs"
       }, _react.default.createElement("h1", {
         className: "student-row-name"
       }, student.firstName.toUpperCase(), " ", student.lastName.toUpperCase()), _react.default.createElement("ul", {
         className: "student-row-listinfo"
-      }, _react.default.createElement("li", null, "Email: ", student.email), _react.default.createElement("li", null, "Company: ", student.company), _react.default.createElement("li", null, "Skill: ", student.skill), _react.default.createElement("li", null, "Average: ", this.calculateAvg(student.grades), " %"))));
+      }, _react.default.createElement("li", null, "Email: ", student.email), _react.default.createElement("li", null, "Company: ", student.company), _react.default.createElement("li", null, "Skill: ", student.skill), _react.default.createElement("li", null, "Average: ", this.calculateAvg(student.grades), " %")), // ---------------------------------------------------
+      //if the user wants to see scores... show them student scores and the add tag input field
+      // ---------------------------------------------------
+      this.state.userWantsToSeeScores ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("ul", {
+        className: "student-row-scores"
+      }, testScores), _react.default.createElement("div", {
+        className: "tags-container"
+      }, arrOfTags), _react.default.createElement("form", {
+        onSubmit: this.addTag
+      }, _react.default.createElement("input", {
+        className: "add-tag-input",
+        value: this.state.tagToAdd,
+        type: "text",
+        placeholder: "Add a tag",
+        onChange: this.getTagInput
+      }))) : _react.default.createElement(_react.default.Fragment, null)), // ---------------------------------------------------
+      // if the user wants to see scores show them the minus icon for a button... otherwise show a plus icon
+      // ---------------------------------------------------
+      this.state.userWantsToSeeScores ? _react.default.createElement("i", {
+        className: "fa fa-minus expand-btn",
+        "aria-hidden": "true",
+        onClick: this.toggleScores
+      }) : _react.default.createElement("i", {
+        className: "fa fa-plus expand-btn",
+        "aria-hidden": "true",
+        onClick: this.toggleScores
+      })));
     }
   }]);
 
@@ -31951,11 +32049,18 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StudentContainer).call(this));
     _this.state = {
-      searchTerm: ''
+      searchTerm: '',
+      tagSearchTerm: '',
+      allStudentTags: {}
     };
     _this.searchForName = _this.searchForName.bind(_assertThisInitialized(_this));
+    _this.searchByTag = _this.searchByTag.bind(_assertThisInitialized(_this));
+    _this.extractTagsFromRow = _this.extractTagsFromRow.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } //--------------------------------------------------
+  // Seaching methods
+  //--------------------------------------------------
+
 
   _createClass(StudentContainer, [{
     key: "searchForName",
@@ -31966,6 +32071,32 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "searchByTag",
+    value: function searchByTag(event) {
+      // remove any white spaces and store search input into state
+      this.setState({
+        tagSearchTerm: event.target.value.replace(/ /g, '')
+      });
+    }
+  }, {
+    key: "extractTagsFromRow",
+    value: function extractTagsFromRow(studentIndex, gotStudentTags) {
+      // this function will be used to grab the tags of a student for filtering
+      // The filter method below will update tempSetOfTags with a new set of tags to filter as it iterates through the <StudentRow /> components
+      this.setState(function (state) {
+        // make a copy of all students and their tags already in state
+        var copyOfAllStudentTagsArr = JSON.parse(JSON.stringify(state.allStudentTags)); // update OR create a spot in the allStudentTags object
+        // When a <StudentRow /> mounts this function will create a spot for that student to store their tags in the allStudentsObject
+        // when a tag is added this funtion will update that unique student's tags
+
+        copyOfAllStudentTagsArr[studentIndex] = gotStudentTags; // update state object with new updated object
+
+        return {
+          allStudentTags: copyOfAllStudentTagsArr
+        };
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -31973,43 +32104,91 @@ function (_React$Component) {
       // save fetched students array to a variable
       var fetchedStudents = this.props.studentInformation;
       var studentsToShow = []; //--------------------------------------------------
-      // iterate over array of fetched data in props WHEN we have recieved it
+      // iterate over array of fetched data in props WHEN fetched data is recieved
       // create a unique UI component for each object in the array
       //--------------------------------------------------
 
       var setOfStudents = fetchedStudents.map(function (studentData, index) {
         return _react.default.createElement(_StudentRow.default, {
           key: studentData.firstName + index,
-          studentData: studentData
+          studentData: studentData,
+          index: index,
+          extractTagsFromRow: _this2.extractTagsFromRow,
+          tags: _this2.state.allStudentTags[index]
         });
       }); //--------------------------------------------------
-      // Filter through array of UI components
-      // Return only the components that match the search conditions
+      // Filter through array of already made UI components ... Return only the components that match the search conditions
       //--------------------------------------------------
+      // const filteredSetOfStudents = setOfStudents.filter((studentRow, index)=>{
+      //   // tap into the props object of a each <StudentRow />...and extract the first and last name of each student
+      //   // (use toUpperCase() for case insensitive search)
+      //   const studentFirstName= studentRow.props.studentData.firstName.toUpperCase()
+      //   const studentLastName= studentRow.props.studentData.lastName.toUpperCase()
+      //   // return UI Components where the extracted names (AND tags in state) match against the search input
+      // 	const searchQuery = this.state.searchTerm.toUpperCase();
+      // 	const tagQuery = this.state.tagSearchTerm.toUpperCase();
+      //   // iterate through each tag for the current student
+      //   let that = this;
+      //   function checkForTagMatches(){
+      //     console.log(tagQuery)
+      //     console.log(that.state.allStudentTags[0])
+      //     if(!that.state.allStudentTags[index]){
+      //       return true;
+      //     }else{
+      //       for(let i = 0 ; i < that.state.allStudentTags[index].length; i++){
+      //         // if any of this students tags match the tag search query
+      //         if(that.state.allStudentTags[index][i].toUpperCase().includes(tagQuery)){
+      //           return true;
+      //         }
+      //       }
+      //     }
+      //     return false;
+      //   }
+      //   return(	
+      //     // show ui item if input matches first name, last name or both
+      //     studentFirstName.includes(searchQuery) && (this.state.tagSearchTerm ? checkForTagMatches() : true)  || studentLastName.includes(searchQuery) && (this.state.tagSearchTerm ? checkForTagMatches() : true) || ((studentFirstName + studentLastName).includes(searchQuery) && (this.state.tagSearchTerm ? checkForTagMatches() : true) || (this.state.tagSearchTerm ? checkForTagMatches() : true) )
+      //   );
+      // });
 
-      var filteredSetOfStudents = setOfStudents.filter(function (studentRow, index) {
-        // tap into the props object of a each <StudentRow />... 
-        // and extract the first and last name of each student
-        // (use toUpperCase() for caseinsensitive search)
-        var studentFirstName = studentRow.props.studentData.firstName.toUpperCase();
-        var studentLastName = studentRow.props.studentData.lastName.toUpperCase(); // return UI Components where the extracted names match against the search input
+      var filteredSetByTag = setOfStudents.filter(function (studentRow, index) {
+        var tagQuery = _this2.state.tagSearchTerm.toUpperCase(); // iterate through each tag for the current student
 
-        var searchQuery = _this2.state.searchTerm.toUpperCase();
 
-        return (// show ui item if input matches first name, last name or both
-          studentFirstName.includes(searchQuery) || studentLastName.includes(searchQuery) || (studentFirstName + studentLastName).includes(searchQuery)
-        );
+        var that = _this2;
+
+        function checkForTagMatches() {
+          console.log(tagQuery);
+          console.log(that.state.allStudentTags);
+
+          if (that.state.allStudentTags[index]) {
+            for (var i = 0; i < that.state.allStudentTags[index].length; i++) {
+              // if any of this students tags match the tag search query
+              if (that.state.allStudentTags[index][i].toUpperCase().includes(tagQuery)) {
+                return true;
+              }
+            }
+          }
+
+          return false;
+        }
+
+        return _this2.state.tagSearchTerm ? checkForTagMatches() : false;
       });
       return _react.default.createElement("main", {
         className: "student-set-container"
       }, _react.default.createElement("input", {
-        className: "searchBar",
+        className: "search-input search-fields",
         type: "text",
         placeholder: "Search by name",
         onChange: this.searchForName
+      }), _react.default.createElement("input", {
+        className: "tag-input search-fields",
+        type: "text",
+        placeholder: "Search by tag",
+        onChange: this.searchByTag
       }), _react.default.createElement("div", {
         className: "student-set"
-      }, this.state.searchTerm ? filteredSetOfStudents : setOfStudents));
+      }, this.state.tagSearchTerm ? filteredSetByTag : setOfStudents));
     }
   }]);
 

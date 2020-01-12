@@ -1,4 +1,4 @@
-.searchBar {
+.search-fields {
   border:none;
   border-bottom: solid 1pt rgba(0,0,0,0.3);
   margin-left: 0.6em;
@@ -10,8 +10,12 @@
   font-family: "Raleway", "sans-serif";
   font-size: 15pt;
   transition:0.2s;
-
+  color:rgba(0,0,0,0.75)
 }
+.tag-input {
+  margin-top: 0.5em;
+}
+
 .searchBar:focus {
   transition:0.2s;
   border-bottom: solid 1pt rgba(0,0,0,0.6);
@@ -19,6 +23,7 @@
 }
 
 .student-set-container{
+  display: block;
 	margin: auto;
   height: 37em;
   width:60%;
@@ -31,11 +36,12 @@
 	left: 0;
   right: 0;
   box-shadow: 1px 1px 7px rgba(0,0,0,0.6);
+  animation:fadein 1s;
 }
-/* .student-set{
-  overflow-y: scroll;
-  height:33.58em;
-} */
+
+.student-set{
+  margin-top: 0.5em;
+}
 .student-set-container::-webkit-scrollbar { 
   display: none; 
 }

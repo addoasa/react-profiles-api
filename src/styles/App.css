@@ -1,4 +1,13 @@
 body {
   margin:0;
   background: rgba(131, 131, 131,0.1);
+  animation: fadein 0.8s;
+}
+@keyframes fadein{
+  0%{
+    opacity:0;
+  }
+  100%{
+    opacity: 1;
+  }
 }

@@ -5,6 +5,7 @@ Student Row Styles
   display:flex;
   padding-top: 1em;
   border-bottom: solid 1pt rgba(0,0,0,0.1);
+  animation: fadein 0.2s;
 }
 .student-row-image{
   border-radius: 50%;
@@ -17,8 +18,18 @@ Student Row Styles
   margin-left: 1.5em;
 }
 
+.student-row-specs-and-btn {
+  margin-left: 2.3em;
+  display:flex;
+  justify-content: space-between;
+  width:39.5em;
+
+}
+
 .student-row-specs {
-  margin-left: 2.7em;
+  /* margin-left: 2.7em; */
+  transition: 1s;
+
 }
 
 .student-row-name {
@@ -36,7 +47,72 @@ Student Row Styles
   list-style: none;
   padding-top: 0.3em;
 }
-.searchBar {
+
+.student-row-scores li {
+  font-family: 'Raleway', sans-serif;
+  font-size: 12pt;
+  color:rgba(0,0,0,0.8);
+  list-style: none;
+  padding-top: 0.3em;
+  display: flex;
+  justify-content: space-between;
+  width:7em;
+  text-align: left;
+}
+
+.add-tag-input { 
+  border:none;
+  border-bottom: solid 1pt rgba(0,0,0,0.3);
+  margin-left: 0.6em;
+  outline: none;
+  background-color: transparent;
+  width:10em;
+  padding-top: 1em;
+  padding-bottom: 0.5em;
+  font-family: "Raleway", "sans-serif";
+  font-size: 15pt;
+  transition:0.2s;
+  color:rgba(0,0,0,0.75);
+  margin-left: 2em;
+
+}
+.add-tag-input:focus { 
+  transition:0.2s;
+  border-bottom: solid 1pt rgba(0,0,0,0.6);
+}
+
+.expand-btn {
+  font-size: 20pt;
+  padding-top: 0.4em;
+  color:rgba(0,0,0,0.3);
+  cursor:pointer;
+  transition: 0.1s;
+}
+
+
+.expand-btn:hover {
+  color:rgba(0,0,0,0.8);
+  transition: 0.1s;
+
+}
+
+.tags-container {
+  display:flex;
+  flex-wrap: wrap;
+  margin-left: 2em;
+}
+
+.student-tag {
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 5px;
+  padding:0.5em 0.4em 0.5em 0.4em;
+  font-family: 'Raleway', sans-serif;
+  font-size: 12pt;
+  color:rgba(0,0,0,0.8);
+  margin-left: 0.3em;
+  margin-top: 0.3em;
+}
+.search-fields {
   border:none;
   border-bottom: solid 1pt rgba(0,0,0,0.3);
   margin-left: 0.6em;
@@ -48,8 +124,12 @@ Student Row Styles
   font-family: "Raleway", "sans-serif";
   font-size: 15pt;
   transition:0.2s;
-
+  color:rgba(0,0,0,0.75)
 }
+.tag-input {
+  margin-top: 0.5em;
+}
+
 .searchBar:focus {
   transition:0.2s;
   border-bottom: solid 1pt rgba(0,0,0,0.6);
@@ -57,6 +137,7 @@ Student Row Styles
 }
 
 .student-set-container{
+  display: block;
 	margin: auto;
   height: 37em;
   width:60%;
@@ -69,11 +150,12 @@ Student Row Styles
 	left: 0;
   right: 0;
   box-shadow: 1px 1px 7px rgba(0,0,0,0.6);
+  animation:fadein 1s;
 }
-/* .student-set{
-  overflow-y: scroll;
-  height:33.58em;
-} */
+
+.student-set{
+  margin-top: 0.5em;
+}
 .student-set-container::-webkit-scrollbar { 
   display: none; 
 }
@@ -81,6 +163,15 @@ Student Row Styles
 body {
   margin:0;
   background: rgba(131, 131, 131,0.1);
+  animation: fadein 0.8s;
+}
+@keyframes fadein{
+  0%{
+    opacity:0;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 
 /*# sourceMappingURL=/src.7ed060e2.css.map */
