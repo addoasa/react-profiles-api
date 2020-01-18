@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable react/prop-types */
 import React from "react";
 import "../styles/StudentRow.css";
 class StudentRow extends React.Component {
@@ -5,9 +7,9 @@ class StudentRow extends React.Component {
 		super();
 		this.state = {
 			userWantsToSeeScores : false,
-			tagToAdd:'',
+			tagToAdd:"",
 			tagArray:[]
-		}
+		};
 		this.calculateAvg = this.calculateAvg.bind(this);
 		this.toggleScores = this.toggleScores.bind(this);
 		this.addTag = this.addTag.bind(this);
@@ -51,13 +53,13 @@ class StudentRow extends React.Component {
 		copyOfTagArray.push(this.state.tagToAdd);
 
 		// store the array of tags the user has inputted in state
-    // and reset input field
-    // send tag data to the parent when a new tag is addedgit add    
-    // Do this along with setting state to avoid state updating one step behind
+		// and reset input field
+		// send tag data to the parent when a new tag is addedgit add    
+		// Do this along with setting state to avoid state updating one step behind
 		this.setState({
 			tagArray: copyOfTagArray,
-			tagToAdd:'',
-    },()=> this.props.extractTagsFromRow(this.props.index, this.state.tagArray));
+			tagToAdd:"",
+		},()=> this.props.extractTagsFromRow(this.props.index, this.state.tagArray));
 
 	}
 
@@ -77,19 +79,19 @@ class StudentRow extends React.Component {
 			testScores.push(<li key = {`${student.firstName}-${student.grades[i]}`}>
 				<span>Test{i}:</span>
 				<span >{student.grades[i]}%</span>
-			</li>)
+			</li>);
 		}
     
-    //-------------------------------
+		//-------------------------------
 		// Create a UI item for each tag stored in Parent's state 
 		//-------------------------------
-    let arrOfTags = [];
-    if(this.props.tags){
+		let arrOfTags = [];
+		if(this.props.tags){
 
-      arrOfTags = this.props.tags.map((tag, index)=>{
-        return(<div className = "student-tag" key= {`${tag} ${index}`}>{tag}</div>);
-      })
-    }
+			arrOfTags = this.props.tags.map((tag, index)=>{
+				return(<div className = "student-tag" key= {`${tag} ${index}`}>{tag}</div>);
+			});
+		}
 
 
 		return(
@@ -132,7 +134,7 @@ class StudentRow extends React.Component {
 					}
 				</div>
 			</div>
-		)
+		);
 	}
 }
 

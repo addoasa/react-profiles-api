@@ -27,7 +27,6 @@ Student Row Styles
 }
 
 .student-row-specs {
-  /* margin-left: 2.7em; */
   transition: 1s;
 
 }
@@ -60,26 +59,9 @@ Student Row Styles
   text-align: left;
 }
 
-.add-tag-input { 
-  border:none;
-  border-bottom: solid 1pt rgba(0,0,0,0.3);
-  margin-left: 0.6em;
-  outline: none;
-  background-color: transparent;
-  width:10em;
-  padding-top: 1em;
-  padding-bottom: 0.5em;
-  font-family: "Raleway", "sans-serif";
-  font-size: 15pt;
-  transition:0.2s;
-  color:rgba(0,0,0,0.75);
-  margin-left: 2em;
-
-}
-.add-tag-input:focus { 
-  transition:0.2s;
-  border-bottom: solid 1pt rgba(0,0,0,0.6);
-}
+/*------------------ 
+Toggle scores Styles
+-------------------*/
 
 .expand-btn {
   font-size: 20pt;
@@ -94,6 +76,31 @@ Student Row Styles
   color:rgba(0,0,0,0.8);
   transition: 0.1s;
 
+}
+/*------------------ 
+Tag Styles
+-------------------*/
+
+.add-tag-input { 
+  border:none;
+  border-bottom: solid 1pt rgba(0,0,0,0.3);
+  margin-left: 0.6em;
+  outline: none;
+  background-color: transparent;
+  width:10em;
+  padding-top: 1em;
+  padding-bottom: 0.5em;
+  font-family: "Raleway", "sans-serif";
+  font-size: 15pt;
+  transition:0.2s;
+  color:rgba(0,0,0,0.75);
+  margin-left: 2em;
+  margin-bottom: 1.5em;
+
+}
+.add-tag-input:focus { 
+  transition:0.2s;
+  border-bottom: solid 1pt rgba(0,0,0,0.6);
 }
 
 .tags-container {
@@ -112,6 +119,9 @@ Student Row Styles
   margin-left: 0.3em;
   margin-top: 0.3em;
 }
+/*------------------ 
+Search bar Styles
+-------------------*/
 .search-fields {
   border:none;
   border-bottom: solid 1pt rgba(0,0,0,0.3);

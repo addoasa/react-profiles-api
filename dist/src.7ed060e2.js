@@ -31847,7 +31847,7 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StudentRow).call(this));
     _this.state = {
       userWantsToSeeScores: false,
-      tagToAdd: '',
+      tagToAdd: "",
       tagArray: []
     };
     _this.calculateAvg = _this.calculateAvg.bind(_assertThisInitialized(_this));
@@ -31912,7 +31912,7 @@ function (_React$Component) {
 
       this.setState({
         tagArray: copyOfTagArray,
-        tagToAdd: ''
+        tagToAdd: ""
       }, function () {
         return _this2.props.extractTagsFromRow(_this2.props.index, _this2.state.tagArray);
       });
@@ -32049,8 +32049,8 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StudentContainer).call(this));
     _this.state = {
-      searchTerm: '',
-      tagSearchTerm: '',
+      searchTerm: "",
+      tagSearchTerm: "",
       allStudentTags: {}
     };
     _this.searchForName = _this.searchForName.bind(_assertThisInitialized(_this));
@@ -32067,7 +32067,7 @@ function (_React$Component) {
     value: function searchForName(event) {
       // remove any white spaces and store search input into state
       this.setState({
-        searchTerm: event.target.value.replace(/ /g, '')
+        searchTerm: event.target.value.replace(/ /g, "")
       });
     }
   }, {
@@ -32075,7 +32075,7 @@ function (_React$Component) {
     value: function searchByTag(event) {
       // remove any white spaces and store search input into state
       this.setState({
-        tagSearchTerm: event.target.value.replace(/ /g, '')
+        tagSearchTerm: event.target.value.replace(/ /g, "")
       });
     }
   }, {
@@ -32102,8 +32102,7 @@ function (_React$Component) {
       var _this2 = this;
 
       // save fetched students array to a variable
-      var fetchedStudents = this.props.studentInformation;
-      var studentsToShow = []; //--------------------------------------------------
+      var fetchedStudents = this.props.studentInformation; //--------------------------------------------------
       // iterate over array of fetched data in props WHEN fetched data is recieved
       // create a unique UI component for each object in the array
       //--------------------------------------------------
@@ -32119,60 +32118,52 @@ function (_React$Component) {
       }); //--------------------------------------------------
       // Filter through array of already made UI components ... Return only the components that match the search conditions
       //--------------------------------------------------
-      // const filteredSetOfStudents = setOfStudents.filter((studentRow, index)=>{
-      //   // tap into the props object of a each <StudentRow />...and extract the first and last name of each student
-      //   // (use toUpperCase() for case insensitive search)
-      //   const studentFirstName= studentRow.props.studentData.firstName.toUpperCase()
-      //   const studentLastName= studentRow.props.studentData.lastName.toUpperCase()
-      //   // return UI Components where the extracted names (AND tags in state) match against the search input
-      // 	const searchQuery = this.state.searchTerm.toUpperCase();
-      // 	const tagQuery = this.state.tagSearchTerm.toUpperCase();
-      //   // iterate through each tag for the current student
-      //   let that = this;
-      //   function checkForTagMatches(){
-      //     console.log(tagQuery)
-      //     console.log(that.state.allStudentTags[0])
-      //     if(!that.state.allStudentTags[index]){
-      //       return true;
-      //     }else{
-      //       for(let i = 0 ; i < that.state.allStudentTags[index].length; i++){
-      //         // if any of this students tags match the tag search query
-      //         if(that.state.allStudentTags[index][i].toUpperCase().includes(tagQuery)){
-      //           return true;
-      //         }
-      //       }
-      //     }
-      //     return false;
-      //   }
-      //   return(	
-      //     // show ui item if input matches first name, last name or both
-      //     studentFirstName.includes(searchQuery) && (this.state.tagSearchTerm ? checkForTagMatches() : true)  || studentLastName.includes(searchQuery) && (this.state.tagSearchTerm ? checkForTagMatches() : true) || ((studentFirstName + studentLastName).includes(searchQuery) && (this.state.tagSearchTerm ? checkForTagMatches() : true) || (this.state.tagSearchTerm ? checkForTagMatches() : true) )
-      //   );
-      // });
 
-      var filteredSetByTag = setOfStudents.filter(function (studentRow, index) {
-        var tagQuery = _this2.state.tagSearchTerm.toUpperCase(); // iterate through each tag for the current student
+      var filteredSetOfStudents = setOfStudents.filter(function (studentRow, index) {
+        // tap into the props object of a each <StudentRow />...and extract the first and last name of each student
+        var studentFirstName = studentRow.props.studentData.firstName.toUpperCase();
+        var studentLastName = studentRow.props.studentData.lastName.toUpperCase(); // (use toUpperCase() for case insensitive search)
+
+        var searchQuery = _this2.state.searchTerm.toUpperCase();
+
+        var tagQuery = _this2.state.tagSearchTerm.toUpperCase(); //-------------------
+        // Function for Tag match
+        //-------------------
+        // keep a reference to this class's 'this' so that we can use it in the context of this helper function
 
 
-        var that = _this2;
+        var that = _this2; // helper function to check if the inputted tag will match any tags of the current student
 
         function checkForTagMatches() {
-          console.log(tagQuery);
-          console.log(that.state.allStudentTags);
-
+          // if the student has any tags...
           if (that.state.allStudentTags[index]) {
+            // iterate through each tag for the current student
             for (var i = 0; i < that.state.allStudentTags[index].length; i++) {
-              // if any of this students tags match the tag search query
+              // if any of this students tags match the tag search query return true
               if (that.state.allStudentTags[index][i].toUpperCase().includes(tagQuery)) {
                 return true;
               }
             }
-          }
+          } // otherwise return false
+
 
           return false;
-        }
+        } //-------------------
+        // Search conditions
+        //-------------------
+        // return UI Components where the extracted names (AND tags in state) match against the search inputs
 
-        return _this2.state.tagSearchTerm ? checkForTagMatches() : false;
+
+        if (_this2.state.tagSearchTerm && _this2.state.searchTerm) {
+          // searching for both name and tag
+          return studentFirstName.includes(searchQuery) && checkForTagMatches() || studentLastName.includes(searchQuery) && checkForTagMatches() || (studentFirstName + studentLastName).includes(searchQuery) && checkForTagMatches();
+        } else if (_this2.state.searchTerm) {
+          // searching for name
+          return studentFirstName.includes(searchQuery) || studentLastName.includes(searchQuery) || (studentFirstName + studentLastName).includes(searchQuery);
+        } else if (_this2.state.tagSearchTerm) {
+          // searching for tag
+          return checkForTagMatches();
+        }
       });
       return _react.default.createElement("main", {
         className: "student-set-container"
@@ -32188,7 +32179,7 @@ function (_React$Component) {
         onChange: this.searchByTag
       }), _react.default.createElement("div", {
         className: "student-set"
-      }, this.state.tagSearchTerm ? filteredSetByTag : setOfStudents));
+      }, this.state.tagSearchTerm || this.state.searchTerm ? filteredSetOfStudents : setOfStudents));
     }
   }]);
 
@@ -32270,8 +32261,6 @@ function (_React$Component) {
         return gotData.json();
       }) // store the translated student content in state
       .then(function (gotReadableData) {
-        console.log(gotReadableData.students);
-
         _this2.setState({
           studentInformation: gotReadableData.students
         });
@@ -32331,7 +32320,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60654" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64181" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -4,8 +4,8 @@
   "description": "Frontend assessment creating student profiles.",
   "main": "index.js",
   "scripts": {
-    "start": "parcel ./public/index.html",
-    "test": ""
+    "start": "parcel ./public/index.html -p 8000",
+    "build": "parcel build ./public/index.html"
   },
   "author": "Kwadwo Asamoah",
   "license": "ISC",
